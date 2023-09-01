@@ -253,7 +253,7 @@ def process(positive_prompt, negative_prompt, steps, switch, width, height, imag
                 negative=negative_conditions,
                 latent=upscaled_latent,
                 steps=20, start_step=0, last_step=20,
-                disable_noise=False, force_full_denoise=force_full_denoise, denoise=0.3,
+                disable_noise=False, force_full_denoise=force_full_denoise, denoise=0.6,
                 seed=image_seed,
                 sampler_name=sampler_name,
                 scheduler=scheduler,

@@ -303,4 +303,4 @@ def image_to_numpy(x):
 
 @torch.no_grad()
 def latent_upscale_by(samples, upscale_method, scale_by):
-    return opLatentUpscaleBy.upscale(samples, upscale_method, scale_by)
+    return opLatentUpscaleBy.upscale(samples, upscale_method, scale_by)[0]
