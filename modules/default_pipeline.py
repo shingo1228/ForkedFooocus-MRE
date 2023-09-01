@@ -244,8 +244,8 @@ def process(positive_prompt, negative_prompt, steps, switch, width, height, imag
             callback_function=callback
         )
 
-        upscale = True
-        if upscale:
+        upscale_enabled = True
+        if upscale_enabled:
             upscaled_latent = core.latent_upscale_by(sampled_latent, "bicubic", 1.5)
             sampled_latent = core.ksampler(
                 model=xl_base_patched.unet,
