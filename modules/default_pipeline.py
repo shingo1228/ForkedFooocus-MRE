@@ -244,6 +244,23 @@ def process(positive_prompt, negative_prompt, steps, switch, width, height, imag
             callback_function=callback
         )
 
+        upscale = True
+        if upscale:
+            upscaled_latent = core.latent_upscale_by(sampled_latent, "bicubic", 1.5)
+            sampled_latent = core.ksampler(
+                model=xl_base_patched.unet,
+                positive=positive_conditions,
+                negative=negative_conditions,
+                latent=upscaled_latent,
+                steps=20, start_step=0, last_step=20,
+                disable_noise=False, force_full_denoise=force_full_denoise, denoise=0.3,
+                seed=image_seed,
+                sampler_name=sampler_name,
+                scheduler=scheduler,
+                cfg=cfg,
+                callback_function=callback
+            )
+
     decoded_latent = core.decode_vae(vae=xl_base_patched.vae, latent_image=sampled_latent)
 
     images = core.image_to_numpy(decoded_latent)

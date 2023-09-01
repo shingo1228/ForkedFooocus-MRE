@@ -9,7 +9,8 @@ import comfy.utils
 
 from comfy.sd import load_checkpoint_guess_config
 from nodes import VAEDecode, EmptyLatentImage, CLIPTextEncode, VAEEncode, \
-    ConditioningZeroOut, CLIPVisionEncode, unCLIPConditioning, ControlNetApplyAdvanced
+    ConditioningZeroOut, CLIPVisionEncode, unCLIPConditioning, ControlNetApplyAdvanced, \
+    LatentUpscaleBy
 from comfy.sample import prepare_mask, broadcast_cond, get_additional_models, cleanup_additional_models
 from comfy_extras.nodes_post_processing import ImageScaleToTotalPixels
 from comfy_extras.nodes_canny import Canny
@@ -30,6 +31,7 @@ opCLIPVisionEncode = CLIPVisionEncode()
 opUnCLIPConditioning = unCLIPConditioning()
 opCanny = Canny()
 opControlNetApplyAdvanced = ControlNetApplyAdvanced()
+opLatentUpscaleBy = LatentUpscaleBy()
 
 class StableDiffusionModel:
     def __init__(self, unet, vae, clip, clip_vision):
@@ -298,3 +300,7 @@ def ksampler_with_refiner(model, positive, negative, refiner, refiner_positive, 
 @torch.no_grad()
 def image_to_numpy(x):
     return [np.clip(255. * y.cpu().numpy(), 0, 255).astype(np.uint8) for y in x]
+
+@torch.no_grad()
+def latent_upscale_by(samples, upscale_method, scale_by):
+    return opLatentUpscaleBy.upscale(samples, upscale_method, scale_by)
